@@ -45,9 +45,19 @@ CREATE TABLE IF NOT EXISTS song_history(
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_artist(
-	id INT PRIMARY KEY AUTO_INCREMENT
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    artist_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES artist(artist_id),
+    FOREIGN KEY (user_id) REFERENCES `user`(user_id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_plan(
-	id INT PRIMARY KEY AUTO_INCREMENT
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    register_date DATETIME NOT NULL,
+    user_id INT NOT NULL,
+    plan_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES `user`(user_id),
+    FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
 ) ENGINE = InnoDB;
+
