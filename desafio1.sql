@@ -5,7 +5,7 @@ USE SpotifyClone;
 CREATE TABLE IF NOT EXISTS `user`(
 	user_id INT PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(64) NOT NULL,
-    age INT NOT NULL
+    age TINYINT NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS artist(
@@ -61,3 +61,8 @@ CREATE TABLE IF NOT EXISTS user_plan(
     FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
 ) ENGINE = InnoDB;
 
+INSERT INTO `user`(
+	username,
+    age,
+    
+)
