@@ -1,0 +1,36 @@
+CREATE SCHEMA IF NOT EXISTS SpotifyClone;
+
+USE SpotifyClone;
+
+CREATE TABLE IF NOT EXISTS `user`(
+	user_id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(64) NOT NULL,
+    age INT NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS artist(
+	artist_id INT PRIMARY KEY AUTO_INCREMENT,
+    artist_name VARCHAR(64) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS plan (
+	plan_id INT PRIMARY KEY AUTO_INCREMENT,
+    plan_name VARCHAR(64) NOT NULL,
+    price DECIMAL(3, 2) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS album(
+	album_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(64) NOT NULL,
+    release_year VARCHAR(64) NOT NULL,
+    artist_id INT NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES artist(artist_id)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS song(
+    title VARCHAR(128) NOT NULL,
+    `length` INT NOT NULL,
+    album_id INT NOT NULL,
+    FOREIGN KEY (album_id) REFERENCES album(album_id)
+) ENGINE = InnoDB;
+
