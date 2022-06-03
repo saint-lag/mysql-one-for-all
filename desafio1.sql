@@ -28,9 +28,26 @@ CREATE TABLE IF NOT EXISTS album(
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS song(
+	song_id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(128) NOT NULL,
-    `length` INT NOT NULL,
+    length_in_sec INT NOT NULL,
     album_id INT NOT NULL,
     FOREIGN KEY (album_id) REFERENCES album(album_id)
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS song_history(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    history_date DATETIME NOT NULL,
+    user_id INT NOT NULL,
+    song_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES `user`(user_id),
+    FOREIGN KEY (song_id) REFERENCES song(song_id)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS user_artist(
+	id INT PRIMARY KEY AUTO_INCREMENT
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS user_plan(
+	id INT PRIMARY KEY AUTO_INCREMENT
+) ENGINE = InnoDB;
