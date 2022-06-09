@@ -4,12 +4,6 @@ CREATE SCHEMA SpotifyClone;
 
 USE SpotifyClone;
 
-CREATE TABLE IF NOT EXISTS `user`(
-	user_id INT PRIMARY KEY AUTO_INCREMENT,
-	username VARCHAR(64) NOT NULL,
-    age TINYINT NOT NULL
-) ENGINE = InnoDB;
-
 CREATE TABLE IF NOT EXISTS artist(
 	artist_id INT PRIMARY KEY AUTO_INCREMENT,
     artist_name VARCHAR(64) NOT NULL
@@ -18,7 +12,16 @@ CREATE TABLE IF NOT EXISTS artist(
 CREATE TABLE IF NOT EXISTS plan (
 	plan_id INT PRIMARY KEY AUTO_INCREMENT,
     plan_name VARCHAR(64) NOT NULL,
-    price DECIMAL(3, 2) NOT NULL
+    price DECIMAL(5, 2) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `user`(
+	user_id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(64) NOT NULL,
+    age TINYINT NOT NULL,
+    plan_id INT NOT NULL,
+    register_date DATE NOT NULL,
+    FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS album(
@@ -38,42 +41,21 @@ CREATE TABLE IF NOT EXISTS song(
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS song_history(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    history_date DATETIME NOT NULL,
     user_id INT NOT NULL,
     song_id INT NOT NULL,
+    history_date DATETIME NOT NULL,
     FOREIGN KEY (user_id) REFERENCES `user`(user_id),
-    FOREIGN KEY (song_id) REFERENCES song(song_id)
+    FOREIGN KEY (song_id) REFERENCES song(song_id),
+    PRIMARY KEY (user_id, song_id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_artist(
-	id INT PRIMARY KEY AUTO_INCREMENT,
     artist_id INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (artist_id) REFERENCES artist(artist_id),
-    FOREIGN KEY (user_id) REFERENCES `user`(user_id)
-) ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS user_plan(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    register_date DATETIME NOT NULL,
-    user_id INT NOT NULL,
-    plan_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES `user`(user_id),
-    FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
+    PRIMARY KEY (artist_id, user_id)
 ) ENGINE = InnoDB;
-
-INSERT INTO `user`( username, age) VALUES 
-	('Thati', 23),
-    ('Cinthia', 35),
-    ('Bill', 20),
-    ('Roger', 45),
-    ('Norman', 58),
-    ('Patrick', 33),
-    ('Vivian', 26),
-    ('Carol', 19),
-    ('Angelina', 42),
-    ('Paul', 46);
 
 INSERT INTO artist(artist_name) VALUES
 	('Walter Phoenix'),
@@ -84,10 +66,27 @@ INSERT INTO artist(artist_name) VALUES
     ('Fog');
     
 INSERT INTO plan(plan_name, price) VALUES
-	('gratuito', 0.00),
+	('gratuito', 0),
+    ('pessoal', 6.99),
     ('familiar', 7.99),
-    ('universitário', 5.99),
-    ('pessoal', 6.99);
+    ('universitário', 5.99);
+    
+INSERT INTO `user`(
+		username, 
+		age,
+        plan_id,
+        register_date) 
+VALUES 
+	('Thati', 23, 1, '2019-10-20'),
+    ('Cintia', 35, 3, '2017-12-30'),
+    ('Bill', 20, 4, '2019-06-05'),
+    ('Roger', 45, 2, '2020-05-13'),
+    ('Norman', 58, 2, '2017-02-17'),
+    ('Patrick', 33, 3, '2017-01-06'),
+    ('Vivian', 26, 4, '2018-01-05'),
+    ('Carol', 19, 4, '2018-02-14'),
+    ('Angelina', 42, 3, '2018-04-29'),
+    ('Paul', 46, 3, '2017-01-17');
     
 INSERT INTO album(title, release_year, artist_id) VALUES
 	('Envious', 1990, 1),
@@ -144,7 +143,7 @@ INSERT INTO song(title, length_in_sec, album_id) VALUES
     ('You Make Me Feel So..', 83, 10);
     
 INSERT INTO song_history(user_id, song_id, history_date) VALUES
-	 (1, 36, '2020-02-28 10:45:55'),
+	(1, 36, '2020-02-28 10:45:55'),
     (1, 25, '2020-05-02 05:30:35'),
     (1, 23, '2020-03-06 11:22:33'),
     (1, 14, '2020-08-05 08:05:17'),
@@ -207,16 +206,3 @@ INSERT INTO user_artist(user_id, artist_id) VALUES
     (10, 2),
     (10, 6);
     
-INSERT INTO user_plan(user_id, plan_id, register_date) VALUES
-	(1, 1, '2019-10-20'),
-    (2, 2, '2017-12-30'),
-    (3, 3, '2019-06-05'),
-    (4, 4, '2020-05-13'),
-    (5, 4, '2017-02-17'),
-    (6, 2, '2017-01-06'),
-    (7, 3, '2018-01-05'),
-    (8, 3, '2018-02-14'),
-    (9, 2, '2018-04-29'),
-    (10, 2, '2017-01-17');
-    
-SELECT * FROM user_plan;
