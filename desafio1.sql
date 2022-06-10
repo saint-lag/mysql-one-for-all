@@ -61,7 +61,7 @@ INSERT INTO artist(artist_name) VALUES
 	('Walter Phoenix'),
     ('Peter Strong'),
     ('Lance Day'),
-    ('Freedle Shannon'),
+    ('Freedie Shannon'),
     ('Tyler Isle'),
     ('Fog');
     
@@ -90,7 +90,7 @@ VALUES
     
 INSERT INTO album(title, release_year, artist_id) VALUES
 	('Envious', 1990, 1),
-    ('Exuberent', 1993, 1),
+    ('Exuberant', 1993, 1),
     ('Hallowed Steam', 1995, 2),
     ('Incandescent', 1998, 3),
     ('Temporary Culture', 2001, 4),
